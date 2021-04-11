@@ -1,0 +1,68 @@
+<html lang="en-US">
+  <title>Exchange Rates</title>
+<head>
+</head>
+<body>
+  <div class="container">
+    <div class="jumbotron">
+      <h1>USD$ Conversions</h1>
+      <ul>
+        <li>enter an amount of United States dollars to exchange</li>
+        <li>only whole dollar amounts are supported (no &cent; amounts)</li>
+        <li>uses current exchange rates from <a href="https://www.exchangerate-api.com/" alt="link to app.exchangerate-API.com">exhcangerate-API.com</a></li>
+        <li>displays the exchanged amount of foreign currency, fees excluded</li>
+        <li>options for destination currency were selected based on no travel restrictions (due to COVID-19) as of 12 February, 2021</li>
+      </ul>
+    </div>
+    <form>
+      <div class="form-row align-items-center">
+        <div class="col-md-5">
+          <label for="usd-entry">US Dollar Amount</label>
+          <div class="input-group mb-2">
+            <div class="input-group-prepend">
+              <div class="input-group-text">$</div>
+            </div>
+            <input type="text" class="form-control" id="usd-entry" placeholder="200">
+            <div class="input-group-append">
+              <div class="input-group-text">.00</div>
+            </div>
+            <small class="entry-tip">Enter numbers only: no dots or currency symbols, etc.</small>
+          </div>
+        </div>
+        <div class="col-auto">
+          <div class="form-check mb-2">
+            <input class="form-check-input" name="euro-switch" type="checkbox" id="euro-instead" value="EUR">
+            <label class="form-check-label" for="euro-instead">
+              convert this amount from Euros, not US dollars
+            </label>
+          </div>
+        </div>
+      </div>
+      <div class="form-row align-items-center">
+        <div class="col-auto cur-select">
+          <h2>Select foreign currency</h2>
+          <p class="note">options for destination currency were selected based on no travel restrictions (due to COVID-19) as of 12 February, 2021. Reference: <a href="https://www.kayak.com/travel-restrictions">Kayak.com's travel restrictions by country</p>
+          <div class="form-check">
+            <label for="mexico">Mexico &mdash; Mexican Peso</label>
+            <input type="radio" name="cur-name" id="mexico" value="MXN" required>
+            <label for="costa">Costa Rica &mdash; Costa Rican Colon</label>
+            <input type="radio" name="cur-name" id="costa" value="CRC" required>
+            <label for="brazil">Brazil &mdash; Brazilian Real</label>
+            <input type="radio" name="cur-name" id="brazil" value="BRL" required>
+            <label for="chile">Chile &mdash; Chilean Peso</label>
+            <input type="radio" name="cur-name" id="chile" value="CLP" required>
+            <label for="bosnia">Bosnia and Herzegovina &mdash; Bosnia and Herzegovina Mark</label>
+            <input type="radio" name="cur-name" id="bosnia" value="BAM" required>
+            <label for="s-africa">South Africa &mdash; South African Rand</label>
+            <input type="radio" name="cur-name" id="s-africa" value="ZAR" required>
+            <button type="submit" class="btn btn-success mb-2" id="go-go-exchange">show exchange</button>
+          </div>
+        </div>
+      </div>
+    </form>
+    <div class="results-display">
+    </div>
+    <button class="btn btn-danger">Show Form</button>
+  </div>
+</body>
+</html>

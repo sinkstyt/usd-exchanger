@@ -1,0 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Averia+Serif+Libre&family=Buda:wght@300&display=swap');
+
+body {
+  font-family: 'Buda', cursive;
+  background-color: rbga(210, 210, 186, .3);
+}
+
+span, p, ul, ol {
+  font-family: 'Averia Serif Libre', cursive, serif;
+}
+
+ul {
+  list-style-type: none;
+}
