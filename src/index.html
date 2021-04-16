@@ -1,6 +1,10 @@
-<html lang="en-US">
-  <title>Exchange Rates</title>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exchange Rates</title>
 </head>
 <body>
   <div class="container">
@@ -9,16 +13,22 @@
       <ul>
         <li>enter an amount of United States dollars to exchange</li>
         <li>only whole dollar amounts are supported (no &cent; amounts)</li>
-        <li>uses current exchange rates from <a href="https://www.exchangerate-api.com/" alt="link to app.exchangerate-API.com">exhcangerate-API.com</a></li>
+        <li>uses current exchange rates from <a href="https://www.exchangerate-api.com/" alt="link to app.exchangerate-API.com">exchangerate-API.com</a></li>
         <li>displays the exchanged amount of foreign currency, fees excluded</li>
-        <li>options for destination currency were selected based on no travel restrictions (due to COVID-19) as of 12 February, 2021</li>
+        <li>options for destination currency were selected based on no travel restrictions (due to COVID-19) as of 16 April, 2021</li>
+      </ul>
+    </div>
+    <div class="sidebar col-md-3">
+      <h2>Exchange Rates</h2>
+      <ul class="all-results">
+        
       </ul>
     </div>
     <form>
       <div class="form-row align-items-center">
         <div class="col-md-5">
           <label for="usd-entry">US Dollar Amount</label>
-          <div class="input-group mb-2">
+          <div class="input-group mb-4">
             <div class="input-group-prepend">
               <div class="input-group-text">$</div>
             </div>
@@ -26,22 +36,14 @@
             <div class="input-group-append">
               <div class="input-group-text">.00</div>
             </div>
-            <small class="entry-tip">Enter numbers only: no dots or currency symbols, etc.</small>
-          </div>
-        </div>
-        <div class="col-auto">
-          <div class="form-check mb-2">
-            <input class="form-check-input" name="euro-switch" type="checkbox" id="euro-instead" value="EUR">
-            <label class="form-check-label" for="euro-instead">
-              convert this amount from Euros, not US dollars
-            </label>
+            <small class="entry-tip">Enter numbers only: no decimals, dots, currency symbols, etc.</small>
           </div>
         </div>
       </div>
-      <div class="form-row align-items-center">
+      <div class="align-items-center">
         <div class="col-auto cur-select">
           <h2>Select foreign currency</h2>
-          <p class="note">options for destination currency were selected based on no travel restrictions (due to COVID-19) as of 12 February, 2021. Reference: <a href="https://www.kayak.com/travel-restrictions">Kayak.com's travel restrictions by country</p>
+          <p class="note">options for destination currency were selected based on no travel restrictions (due to COVID-19) as of 12 February, 2021. Reference: <a href="https://www.kayak.com/travel-restrictions">Kayak.com's travel restrictions by country</a></p>
           <div class="form-check">
             <label for="mexico">Mexico &mdash; Mexican Peso</label>
             <input type="radio" name="cur-name" id="mexico" value="MXN" required>

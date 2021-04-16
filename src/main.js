@@ -4,6 +4,36 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import MoneyService from './MoneyService.js';
 
+// make request to get USD exchange rates - ALL - on page load
+let promise = MoneyService.getXChangeRates();
+
+promise.then(function(response) {
+  const body = JSON.parse(response);
+  populateSidebar(body);
+  return body;
+}, function(error) {
+  const errorText = JSON.parse(error);
+  populateSidebar(errorText);
+  return errorText["error-type"];
+});
+
+function populateSidebar(parsedJSON) {
+  let sidebarUl = $(".all-results");
+  sidebarUl.empty();
+  if (parsedJSON.result == "error") {
+    sidebarUl.prepend(parsedJSON["error-type"]);
+    return parsedJSON;
+  } else {
+    for (const rate in parsedJSON.conversion_rates) {
+      sidebarUl.append(`<li>${rate}: ${parsedJSON.conversion_rates[rate]}</li>`);
+    }
+    return parsedJSON;
+  }
+}
+// display all pertinent exchange rates down a column on the right side of client window
+
+// upon button click, display in a results div the product of multiplying requested USD value by its exchange to radio-button indicated destination currency. Include destination currency unit as part of display
+
 function htmlMessageMaker(response, startNum, requested, productNum, destined) {
   let niceHtml = '';
   if (typeof response !== "string") {
