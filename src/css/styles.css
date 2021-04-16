@@ -5,10 +5,29 @@ body {
   background-color: rbga(210, 210, 186, .3);
 }
 
+.jumbotron {
+  padding: 3rem;
+}
+
+h1 {
+  font-size: 54pt;
+  float: right;
+  text-align: right;
+}
+
 span, p, ul, ol {
   font-family: 'Averia Serif Libre', cursive, serif;
 }
 
+ul li {
+  margin-top: .3rem;
+}
+
 ul {
   list-style-type: none;
+}
+
+.entry-tip {
+  clear: both;
+  padding-left: 1rem;
 }
