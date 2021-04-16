@@ -30,33 +30,17 @@ function populateSidebar(parsedJSON) {
     return parsedJSON;
   }
 }
-// display all pertinent exchange rates down a column on the right side of client window
 
-// upon button click, display in a results div the product of multiplying requested USD value by its exchange to radio-button indicated destination currency. Include destination currency unit as part of display
-
-function htmlMessageMaker(response, startNum, requested, productNum, destined) {
-  let niceHtml = '';
-  if (typeof response !== "string") {
-    let sixRatesArr = [];
-    const allISOArr = ["USD", "EUR", "MXN", "CRC", "BRL", "CLP", "BAM", "ZAR"];
-    const namesOfCursArr = ["US Dollars", "Euros", "Mexican Peso", "Costa Rican Colon", "Brazilian Real", "Chilean Peso", "Bosnia and Herzegovina Mark", "South African Rand"];
-    for (const iso of allISOArr) {
-      if (iso !== requested || iso !== "USD" || iso !== "EUR") {
-        sixRatesArr.push(response.conversion_rates[iso]);
-      }
-    }
-    niceHtml += `<ul class="conversion-results">`;
-    niceHtml += `<li class="requested-iso">You asked to convert ${startNum} ${namesOfCursArr[allISOArr.indexOf(requested)]}</li>`;
-    niceHtml += `<li class="requested-iso">This exchanges for: ${productNum} ${namesOfCursArr[allISOArr.indexOf(destined)]}</li>`;
-    niceHtml += `</ul>`;
-  } else {
-    niceHtml += `<p class="error-message">${response}</p>`;
-  }
+function htmlMessageMaker(body, startNum, endNum, endType) {
+  const iSOs = ["MXN", "CRC", "BRL", "CLP", "BAM", "ZAR"];
+  const moneyNames = ["Mexican Peso", "Costa Rican Colon", "Brazilian Real", "Chilean Peso", "Bosnia and Herzegovina Mark", "South African Rand"];
+  let niceHtml = `<ul class="conversion-results"><li class="requested-iso">You asked to convert $${startNum} into ${moneyNames[iSOs.indexOf(endType)]}</li>`;
+  niceHtml += `<li class="requested-iso">This exchanges for: {endNum} ${moneyNames[iSOs.indexOf(endType)]}</li></ul>`;
   return niceHtml;
 }
 
-function multiplyBy(jaySon, initialAmt, destISO) {
-  let resultNum = Math.floor(initialAmt * jaySon.conversion_rates[destISO]);
+function multiplyBy(amountUSD, wantedMoney, body) {
+  let resultNum = Math.floor(amountUSD * body.conversion_rates[wantedMoney]);
   return resultNum;
 }
 
@@ -64,29 +48,14 @@ function assignDefaults() {
   let textField = document.getElementById('usd-entry');
   textField.val(300);
   textField.focus();
-  $("#euro-instead").prop("checked", false);
 }
 
-async function getExchangeRates(startCurrency) {
-  const response = await MoneyService.getXChangeRates(startCurrency);
-  return response.json();
-}
-
-$('#go-go-exchange').on("click", function(event) {
+$('#go-go-exchange').on("click", function(event, body) {
   event.preventDefault();
   let amountStart = parseInt($('#usd-entry').val());
-  let requestISO = "USD";
-  requestISO = $('input:checkbox[name=euro-switch]:checked').val();
-  let destinyISO = $('input:radio[name=cur-name]:checked').val();
-  const response = getExchangeRates(requestISO);
-  let amountEnd = multiplyBy(response, amountStart, destinyISO);
-  const dOMResponse = htmlMessageMaker(response, amountStart, requestISO, requestISO, amountEnd, destinyISO);
-  $('form').slideUp();
+  let destinedISO = $('input:radio[name=cur-name]:checked').val();
+  let amountEnd = multiplyBy(amountStart, destinedISO, body);
+  const dOMResponse = htmlMessageMaker(body, amountStart, amountEnd, destinedISO);
   $('.results-display').prepend(dOMResponse);
-  $('div.results-display').slideDown();
-});
-
-$('button.btn-danger').on("click", function() {
-  $('form').slideDown();
   assignDefaults();
 });
