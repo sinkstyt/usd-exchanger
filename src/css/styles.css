@@ -14,11 +14,18 @@ body {
 .sidebar {
   text-align: justify;
   float: right;
+  color: #1a090dff;
   background-color: #56cbf9ff;
 }
 
 .sidebar li {
   margin-top: 0rem;
+}
+
+.cur-select h2 {
+  text-align: center;
+  align-self: center;
+  font-size: 36pt;
 }
 
 h1 {
@@ -32,7 +39,7 @@ span, p, ul, ol {
 }
 
 ul li {
-  margin-top: .3rem;
+  margin-top: .5rem;
 }
 
 ul {
@@ -42,8 +49,13 @@ ul {
 .entry-tip {
   clear: both;
   padding-left: 1rem;
+  margin-top: .2rem;
 }
 
 ::hover {
   color: #fde74cff;
+}
+
+.note {
+  text-align: justify;
 }
