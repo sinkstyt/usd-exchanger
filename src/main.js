@@ -4,19 +4,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './css/styles.css';
 import MoneyService from './MoneyService.js';
 
-// make request to get USD exchange rates - ALL - on page load
-let promise = MoneyService.getXChangeRates();
-
-promise.then(function(response) {
-  const body = JSON.parse(response);
-  populateSidebar(body);
-  return body;
-}, function(error) {
-  const errorText = JSON.parse(error);
-  populateSidebar(errorText);
-  return errorText["error-type"];
-});
-
 function populateSidebar(parsedJSON) {
   let sidebarUl = $(".all-results");
   sidebarUl.empty();
@@ -31,12 +18,17 @@ function populateSidebar(parsedJSON) {
   }
 }
 
-function htmlMessageMaker(body, startNum, endNum, endType) {
-  const iSOs = ["MXN", "CRC", "BRL", "CLP", "BAM", "ZAR"];
-  const moneyNames = ["Mexican Peso", "Costa Rican Colon", "Brazilian Real", "Chilean Peso", "Bosnia and Herzegovina Mark", "South African Rand"];
-  let niceHtml = `<ul class="conversion-results"><li class="requested-iso">You asked to convert $${startNum} into ${moneyNames[iSOs.indexOf(endType)]}</li>`;
-  niceHtml += `<li class="requested-iso">This exchanges for: {endNum} ${moneyNames[iSOs.indexOf(endType)]}</li></ul>`;
+function htmlMessageMaker(startNum, endNum, endType) {
+  const iSOs = ["MXN", "CRC", "BRL", "CLP", "BAM", "ZAR", "CIC"];
+  const destinationIndex = iSOs.indexOf(endType);
+  const moneyNames = ["Mexican Peso", "Costa Rican Colon", "Brazilian Real", "Chilean Peso", "Bosnia and Herzegovina Mark", "South African Rand", "Cook Islands Crown"];
+  let niceHtml = `<li class="requested-iso">You asked to convert $${startNum} US Dollars into ${moneyNames[destinationIndex]}</li>`;
+  niceHtml += `<li class="requested-iso">This exchanges for: ${endNum} ${moneyNames[destinationIndex]}</li>`;
   return niceHtml;
+}
+
+function displayErrorText(errorText) {
+  return `<li>Your conversion could not be completed. The Exchange Rate service responded with ${errorText}</li>`;
 }
 
 function multiplyBy(amountUSD, wantedMoney, body) {
@@ -45,17 +37,27 @@ function multiplyBy(amountUSD, wantedMoney, body) {
 }
 
 function assignDefaults() {
-  let textField = document.getElementById('usd-entry');
+  let textField = $('#usd-entry');
   textField.val(300);
-  textField.focus();
 }
 
-$('#go-go-exchange').on("click", function(event, body) {
+$('#go-go-exchange').on("click", function(event) {
   event.preventDefault();
   let amountStart = parseInt($('#usd-entry').val());
+  console.log(`amountStart just below variable declaration: ${amountStart}`);
   let destinedISO = $('input:radio[name=cur-name]:checked').val();
-  let amountEnd = multiplyBy(amountStart, destinedISO, body);
-  const dOMResponse = htmlMessageMaker(body, amountStart, amountEnd, destinedISO);
-  $('.results-display').prepend(dOMResponse);
+  const resultsContainer = $(".results-display ul");
+  resultsContainer.empty();
+  let body;
+  let promise = MoneyService.getXChangeRates();
+  promise.then(function(response) {
+    body = JSON.parse(response);
+    populateSidebar(body);
+    let endNumber = multiplyBy(amountStart, destinedISO, body);
+    resultsContainer.append(htmlMessageMaker(amountStart, endNumber, destinedISO));
+  }, function(error) {
+    let errorUnparsed = displayErrorText(error);
+    resultsContainer.append(errorUnparsed);
+  });
   assignDefaults();
 });

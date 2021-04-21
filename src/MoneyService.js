@@ -4,10 +4,11 @@ export default class MoneyService {
       let request = new XMLHttpRequest();
       const url = `https://v6.exchangerate-api.com/v6/${process.env.API_KEY}/latest/USD`;
       request.onload = function() {
-        if (this.result === "success") {
-          resolve(request.response);
-        } else {
-          reject(request.response);
+        try {
+          if (this.status === 200) resolve(request.response);
+        }
+        catch {
+            reject(request.response);
         }
       };
       request.open("GET", url, true);
