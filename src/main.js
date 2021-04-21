@@ -9,12 +9,12 @@ function populateSidebar(parsedJSON) {
   sidebarUl.empty();
   if (parsedJSON.result == "error") {
     sidebarUl.prepend(parsedJSON["error-type"]);
-    return parsedJSON;
   } else {
+    const updated = parsedJSON["time_last_update_utc"].slice(0, 16);
+    sidebarUl.append(`<li id="last-updated">last updated:`+ `<br>`+`${updated}</li>`);
     for (const rate in parsedJSON.conversion_rates) {
       sidebarUl.append(`<li>${rate}: ${parsedJSON.conversion_rates[rate]}</li>`);
     }
-    return parsedJSON;
   }
 }
 
