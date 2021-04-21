@@ -44,7 +44,6 @@ function assignDefaults() {
 $('#go-go-exchange').on("click", function(event) {
   event.preventDefault();
   let amountStart = parseInt($('#usd-entry').val());
-  console.log(`amountStart just below variable declaration: ${amountStart}`);
   let destinedISO = $('input:radio[name=cur-name]:checked').val();
   const resultsContainer = $(".results-display ul");
   resultsContainer.empty();
@@ -53,11 +52,15 @@ $('#go-go-exchange').on("click", function(event) {
   promise.then(function(response) {
     body = JSON.parse(response);
     populateSidebar(body);
-    let endNumber = multiplyBy(amountStart, destinedISO, body);
-    resultsContainer.append(htmlMessageMaker(amountStart, endNumber, destinedISO));
+    if (Object.prototype.hasOwnProperty.call(body.conversion_rates, destinedISO)) {
+      let endNumber = multiplyBy(amountStart, destinedISO, body);
+      resultsContainer.append(htmlMessageMaker(amountStart, endNumber, destinedISO));
+    } else {
+      let errorListElement = displayErrorText(`${destinedISO} is not a supported currency. Do Cook Islands Crowns even exist?`);
+      resultsContainer.append(errorListElement);
+    }
   }, function(error) {
-    let errorUnparsed = displayErrorText(error);
-    resultsContainer.append(errorUnparsed);
+    resultsContainer.append(error);
   });
   assignDefaults();
 });

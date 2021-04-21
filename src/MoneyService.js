@@ -7,8 +7,8 @@ export default class MoneyService {
         try {
           if (this.status === 200) resolve(request.response);
         }
-        catch {
-            reject(request.response);
+        catch(error) {
+          reject(request.response);
         }
       };
       request.open("GET", url, true);
